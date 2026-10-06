@@ -356,29 +356,9 @@ button:hover .btn-arrow,
   animation: pulse-dot 2.4s var(--ease-in-out) infinite;
 }
 
-.nav-hand-mark {
-  display: inline-block;
-  transform-origin: 62% 92%;
-  will-change: transform;
-}
-
-.nav-logo.is-waving .nav-hand-mark {
-  animation: nav-hand-wave 1.05s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.6); opacity: 0.6; }
-}
-
-@keyframes nav-hand-wave {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  12% { transform: rotate(-10deg) translateY(-1px); }
-  24% { transform: rotate(22deg) translateY(-2px); }
-  38% { transform: rotate(-16deg) translateY(-1px); }
-  52% { transform: rotate(18deg) translateY(-2px); }
-  68% { transform: rotate(-8deg) translateY(-1px); }
-  82% { transform: rotate(6deg) translateY(0); }
 }
 
 /* Mega-menu — solid black panel */

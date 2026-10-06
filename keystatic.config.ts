@@ -58,12 +58,6 @@ export default config({
         companyName: fields.text({ label: 'Nome Azienda' }),
 
         // Brand assets — sostituiscono i loghi statici nel sito.
-        logoMark: fields.image({
-          label: 'Logo — Mark (icona piccola, navbar)',
-          description: 'Lasciato vuoto: usa il default `mark-color.png`.',
-          directory: 'src/assets/images/brand',
-          publicPath: '/src/assets/images/brand/',
-        }),
         logoWord: fields.image({
           label: 'Logo — Wordmark (testo, navbar)',
           description: 'Lasciato vuoto: usa il default `logo-black.png`.',
