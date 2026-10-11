@@ -1,0 +1,153 @@
+{
+  "seo": {
+    "title": "REAL GOES VIRAL — Agenzia di comunicazione & marketing",
+    "description": "Nati nel cuore della Motor Valley, scaliamo brand in tutta Italia. Comunicazione, marketing, gestione social media, grafica & branding."
+  },
+  "hero": {
+    "title": "AGENZIA DI\nMARKETING",
+    "subtitle": "Social, video e ads per far crescere e comunicare la tua realtà in Italia.",
+    "ctaLabel": "DESCRIVI IL TUO PROGETTO",
+    "scrollLabel": "VIENI A CONOSCERCI"
+  },
+  "clients": {
+    "title": "HANNO SCELTO VIRAL",
+    "logos": [
+      { "name": "Ristorante 80 Miglio", "logo": "/src/assets/images/home/clienti/80-miglio.webp", "height": 72 },
+      { "name": "Koisushi", "logo": "/src/assets/images/home/clienti/koisushi.webp", "height": 88 },
+      { "name": "Tr3dici Lounge Bar", "logo": "/src/assets/images/home/clienti/tr3dici.webp", "height": 52 },
+      { "name": "Malagoli Bologna Infissi", "logo": "/src/assets/images/home/clienti/malagoli.webp", "height": 48 },
+      { "name": "Federica e Gianni Food & Drink", "logo": "/src/assets/images/home/clienti/federica-gianni.webp", "height": 84 },
+      { "name": "Integrale breakfast & restaurant", "logo": "/src/assets/images/home/clienti/integrale.webp", "height": 56 },
+      { "name": "Griffin’s Irish Pub", "logo": "/src/assets/images/home/clienti/griffins.webp", "height": 84 },
+      { "name": "Papavero Gelateria", "logo": "/src/assets/images/home/clienti/papavero.webp", "height": 56 },
+      { "name": "FEAM Arredamenti", "logo": "/src/assets/images/home/clienti/feam.webp", "height": 60 },
+      { "name": "Dugoni Calzature", "logo": "/src/assets/images/home/clienti/dugoni.webp", "height": 52 }
+    ]
+  },
+  "works": {
+    "enabled": false,
+    "title": "I lavori migliori, cliente per cliente",
+    "ctaLabel": "CONTATTACI ORA"
+  },
+  "services": {
+    "title": "Servizi",
+    "intro": "Un unico team per strategia, produzione e performance. Niente passaggi di mano tra fornitori.",
+    "introMobile": "Un unico team per strategia, produzione e performance.",
+    "items": [
+      {
+        "title": "Social",
+        "description": "Piano editoriale, gestione profili e community. Contenuti pensati per chi scrolla.",
+        "descriptionMobile": "Piano editoriale, gestione profili e community."
+      },
+      {
+        "title": "Video & Foto",
+        "description": "Reel, shooting e format seriali girati nel tuo locale, con le tue persone.",
+        "descriptionMobile": "Reel e shooting girati nel tuo locale."
+      },
+      {
+        "title": "Ads",
+        "description": "Campagne Meta e Google orientate a prenotazioni, contatti e visite.",
+        "descriptionMobile": "Meta e Google per prenotazioni e contatti."
+      },
+      {
+        "title": "SEO & Siti",
+        "description": "Siti veloci e schede locali ottimizzate per Google e Maps.",
+        "descriptionMobile": "Siti veloci e schede locali su Google e Maps."
+      }
+    ]
+  },
+  "cases": {
+    "enabled": false,
+    "title": "Casi studio",
+    "ctaLabel": "TUTTI I PROGETTI",
+    "items": [
+      { "name": "[Cliente 01]", "sector": "Ristorante", "result": "[Risultato]" },
+      { "name": "[Cliente 02]", "sector": "Hotel", "result": "[Risultato]" },
+      { "name": "[Cliente 03]", "sector": "Real estate", "result": "[Risultato]" },
+      { "name": "[Cliente 04]", "sector": "Attività locale", "result": "[Risultato]" }
+    ]
+  },
+  "team": {
+    "title": "Chi siamo",
+    "intro": "Un team piccolo, che conosci per nome.",
+    "members": [
+      {
+        "name": "Abi A.",
+        "role": "Commerciale e amministrazione",
+        "description": "Segue i clienti dal primo contatto al contratto: preventivi, organizzazione e amministrazione dell’agenzia.",
+        "strength": "[Punto forte di Abi]",
+        "weakness": "[Punto debole di Abi]",
+        "photo": null
+      },
+      {
+        "name": "Elisa G.",
+        "role": "Graphic designer",
+        "description": "Cura l’identità visiva dei clienti: grafiche social, brand identity e materiali per la stampa.",
+        "strength": "[Punto forte di Elisa]",
+        "weakness": "[Punto debole di Elisa]",
+        "photo": null
+      },
+      {
+        "name": "Margherita L.",
+        "role": "Social media manager",
+        "description": "Pianifica e gestisce i profili social dei clienti: piano editoriale, pubblicazione e community.",
+        "strength": "[Punto forte di Margherita]",
+        "weakness": "[Punto debole di Margherita]",
+        "photo": null
+      },
+      {
+        "name": "Cristian B.",
+        "role": "Videomaker",
+        "description": "Riprese e montaggio di reel, video promozionali e format seriali per i social.",
+        "strength": "[Punto forte di Cristian]",
+        "weakness": "[Punto debole di Cristian]",
+        "photo": null
+      }
+    ],
+    "collaboratorsLabel": "+ COLLABORATORI",
+    "collaboratorsText": "Una rete di professionisti esterni che coinvolgiamo sui progetti quando serve."
+  },
+  "reviews": {
+    "title": "Dicono\ndi noi",
+    "badge": "RECENSIONI REALI DEI NOSTRI CLIENTI SU GOOGLE",
+    "badgeMobile": "RECENSIONI GOOGLE",
+    "linkLabel": "LEGGILE TUTTE SU GOOGLE",
+    "items": [
+      { "name": "Nadia", "localGuide": false, "count": "7 RECENSIONI SU GOOGLE", "text": "Professionali, creativi e sempre disponibili! […] I contenuti per i social sono curati nei minimi dettagli e il sito web che mi hanno realizzato è moderno e funzionale." },
+      { "name": "Giovanni F.", "localGuide": true, "count": "17 RECENSIONI", "text": "Bravi, ragazzi giovani ed in gamba. Ottimi suggerimenti per crescere, buone le proposte, belli i contenuti che producono." },
+      { "name": "Jessica", "localGuide": false, "count": "2 RECENSIONI SU GOOGLE", "text": "Ho lavorato con questi ragazzi e mi hanno stupito per la loro competenza e professionalità nonostante la giovane età, numeri 1!! Straconsigliati!" },
+      { "name": "Molisea", "localGuide": false, "count": "1 RECENSIONE SU GOOGLE", "text": "Questi due ragazzi sono veramente competenti e molto professionali […] Finalmente riesco a vendere in tutta Italia i miei prodotti!" },
+      { "name": "Emanuele D.", "localGuide": true, "count": "28 RECENSIONI", "text": "Mi hanno fatto uno shooting top, ragazzi stra in gamba" },
+      { "name": "Francesco S.", "localGuide": false, "count": "7 RECENSIONI SU GOOGLE", "text": "Bravissimi e giovanissimi mi sono affidato per il marketing della mia pizzeria napoletana e posso dire che sono soddisfatto del lavoro svolto" },
+      { "name": "Aldo B.", "localGuide": false, "count": "6 RECENSIONI SU GOOGLE", "text": "Mi sono rivolto a questa agenzia per realizzare il sito e-commerce del mio brand di abbigliamento […] sono rimasto super soddisfatto dell’operato." },
+      { "name": "Lara I.", "localGuide": true, "count": "99 RECENSIONI", "text": "Ottimi servizi, ragazzi simpatici e disponibili." },
+      { "name": "Giardini Sonori", "localGuide": false, "count": "5 RECENSIONI SU GOOGLE", "text": "Poche parole, solo fatti… basta guardare i nostri social per vedere ciò che di sensazionale questi bravissimi ragazzi hanno fatto per noi." },
+      { "name": "Daniele B.", "localGuide": false, "count": "3 RECENSIONI SU GOOGLE", "text": "Ho collaborato con questa agenzia per la pagina social del mio locale […] sono rimasto molto soddisfatto, bravi ragazzi giovani con voglia di fare!" },
+      { "name": "Beatrice H.", "localGuide": false, "count": "1 RECENSIONE SU GOOGLE", "text": "Ci siamo affidati a questi bravissimi ragazzi per realizzare un rilievo fotogrammetrico per un’area. Siamo rimasti soddisfatti per la competenza" },
+      { "name": "Arianna S.", "localGuide": false, "count": "2 RECENSIONI SU GOOGLE", "text": "Ho ricevuto una consulenza per la mia attività artistica […] molto bravi sul campo della SEO" }
+    ]
+  },
+  "articles": {
+    "title": "Articoli",
+    "intro": "Interviste, casi e approfondimenti sul marketing per le attività locali."
+  },
+  "contact": {
+    "eyebrow": "PRENOTA UNA CONSULENZA",
+    "title": "Vieni a conoscere di che pasta siamo fatti",
+    "text": "Raccontaci il tuo progetto. Ti rispondiamo entro 24 ore, con una strategia, non con un listino.",
+    "whatsappLabel": "Scrivici su WhatsApp",
+    "whatsappSub": "RISPOSTA IN POCHE ORE",
+    "phoneLabel": "Chiamaci ora"
+  },
+  "footer": {
+    "sediTitle": "LE NOSTRE SEDI",
+    "sedi": [
+      { "city": "Bologna", "tag": "HQ", "photo": "/src/assets/images/home/sedi/bologna.webp", "href": "/agenzia-marketing-bologna/" },
+      { "city": "Modena", "tag": "STUDIO CREATIVO", "photo": "/src/assets/images/home/sedi/modena.webp", "href": "/agenzia-marketing-modena/" },
+      { "city": "Ferrara", "tag": "SEDE", "photo": "/src/assets/images/home/sedi/ferrara.webp", "href": "" },
+      { "city": "Brescia", "tag": "SEDE", "photo": "/src/assets/images/home/sedi/brescia.webp", "href": "" },
+      { "city": "Milano", "tag": "SEDE", "photo": "/src/assets/images/home/sedi/milano.webp", "href": "/agenzia-marketing-milano/" },
+      { "city": "Roma", "tag": "SEDE", "photo": "/src/assets/images/home/sedi/roma.webp", "href": "/agenzia-marketing-roma/" }
+    ]
+  }
+}

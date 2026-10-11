@@ -1,0 +1,34 @@
+---
+import { homeImage } from '../../lib/homeImages';
+
+interface Props {
+  data: { title: string; logos: { name: string; logo: string | null; height: number | null }[] };
+}
+
+const { data } = Astro.props;
+const logos = data.logos
+  .map((l) => ({ name: l.name, img: homeImage(l.logo), height: l.height || 60 }))
+  .filter((l) => l.img);
+---
+
+<section class="hv-clients hv-light" aria-labelledby="hv-clients-title">
+  <h2 id="hv-clients-title" class="hv-clients-title">{data.title}</h2>
+  <div class="hv-marquee">
+    <div class="hv-marquee-track">
+      {[0, 1].map((copy) =>
+        logos.map((l) => (
+          <img
+            src={l.img!.src}
+            width={l.img!.width}
+            height={l.img!.height}
+            alt={copy === 0 ? l.name : ''}
+            aria-hidden={copy === 1 ? 'true' : undefined}
+            style={`--h: ${l.height}px`}
+            loading="lazy"
+            decoding="async"
+          />
+        ))
+      )}
+    </div>
+  </div>
+</section>

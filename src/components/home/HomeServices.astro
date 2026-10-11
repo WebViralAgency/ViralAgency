@@ -1,0 +1,36 @@
+---
+interface Props {
+  data: {
+    title: string;
+    intro: string;
+    introMobile?: string;
+    items: { title: string; description: string; descriptionMobile?: string }[];
+  };
+}
+
+const { data } = Astro.props;
+---
+
+<section id="servizi" class="hv-services hv-light" aria-labelledby="hv-services-title">
+  <div class="hv-section-head">
+    <h2 id="hv-services-title" class="hv-h-xl">{data.title}</h2>
+    <p class="hv-services-intro">
+      <span class="hv-only-desktop">{data.intro}</span>
+      <span class="hv-only-mobile">{data.introMobile || data.intro}</span>
+    </p>
+  </div>
+
+  <div class="hv-services-list">
+    {data.items.map((s, i) => (
+      <a href="#contatti" class:list={['hv-service', i === 0 && 'is-featured']}>
+        <span class="hv-service-num">{String(i + 1).padStart(2, '0')}</span>
+        <span class="hv-service-title">{s.title}</span>
+        <span class="hv-service-desc">
+          <span class="hv-only-desktop">{s.description}</span>
+          <span class="hv-only-mobile">{s.descriptionMobile || s.description}</span>
+        </span>
+        <span class="hv-service-arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </div>
+</section>

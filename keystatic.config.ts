@@ -562,6 +562,227 @@ export default config({
     }),
 
     // ──────────────────────────────────────────────────────────────────────
+    // Homepage — nuovo design (redesign 2026)
+    // Le immagini caricate qui vengono convertite in WebP alla build
+    // (scripts/optimize-images.mjs).
+    // ──────────────────────────────────────────────────────────────────────
+    homeV2: singleton({
+      label: 'Homepage (nuovo design)',
+      path: 'content/pages/home-v2',
+      format: { data: 'json' },
+      schema: {
+        seo: fields.object(
+          {
+            title: fields.text({ label: 'Titolo SEO' }),
+            description: fields.text({ label: 'Descrizione SEO', multiline: true }),
+          },
+          { label: 'SEO' }
+        ),
+
+        hero: fields.object(
+          {
+            title: fields.text({
+              label: 'Titolo',
+              description: 'Una riga per ogni riga del titolo (vai a capo con Invio). Senza punto finale.',
+              multiline: true,
+              defaultValue: 'AGENZIA DI\nMARKETING',
+            }),
+            subtitle: fields.text({ label: 'Sottotitolo', multiline: true }),
+            ctaLabel: fields.text({ label: 'Testo bottone', defaultValue: 'DESCRIVI IL TUO PROGETTO' }),
+            scrollLabel: fields.text({ label: 'Invito a scorrere', defaultValue: 'VIENI A CONOSCERCI' }),
+          },
+          { label: 'Hero' }
+        ),
+
+        clients: fields.object(
+          {
+            title: fields.text({ label: 'Titolo', defaultValue: 'HANNO SCELTO VIRAL' }),
+            logos: fields.array(
+              fields.object({
+                name: fields.text({ label: 'Nome cliente (usato come testo alternativo)' }),
+                logo: fields.image({
+                  label: 'Logo',
+                  description: 'PNG o WebP con sfondo trasparente.',
+                  directory: 'src/assets/images/home/clienti',
+                  publicPath: '/src/assets/images/home/clienti/',
+                }),
+                height: fields.integer({
+                  label: 'Altezza su desktop (px)',
+                  description: 'Su mobile viene ridotta automaticamente.',
+                  defaultValue: 60,
+                }),
+              }),
+              { label: 'Loghi clienti', itemLabel: (props) => props.fields.name.value || '(senza nome)' }
+            ),
+          },
+          { label: 'Hanno scelto Viral (loghi clienti)' }
+        ),
+
+        works: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Mostra la sezione',
+              description:
+                'Spenta finché i video non sono pronti. Accendendola compare anche la voce PORTFOLIO nel menu.',
+              defaultValue: false,
+            }),
+            title: fields.text({ label: 'Titolo', defaultValue: 'I lavori migliori, cliente per cliente' }),
+            ctaLabel: fields.text({ label: 'Testo bottone', defaultValue: 'CONTATTACI ORA' }),
+          },
+          { label: 'I lavori migliori (portfolio)' }
+        ),
+
+        services: fields.object(
+          {
+            title: fields.text({ label: 'Titolo', defaultValue: 'Servizi' }),
+            intro: fields.text({ label: 'Testo introduttivo (desktop)', multiline: true }),
+            introMobile: fields.text({
+              label: 'Testo introduttivo (mobile)',
+              description: 'Se vuoto usa quello desktop.',
+              multiline: true,
+            }),
+            items: fields.array(
+              fields.object({
+                title: fields.text({ label: 'Nome servizio' }),
+                description: fields.text({ label: 'Descrizione (desktop)', multiline: true }),
+                descriptionMobile: fields.text({
+                  label: 'Descrizione (mobile)',
+                  description: 'Versione più corta. Se vuota usa quella desktop.',
+                  multiline: true,
+                }),
+              }),
+              { label: 'Servizi', itemLabel: (props) => props.fields.title.value || '(senza nome)' }
+            ),
+          },
+          { label: 'Servizi' }
+        ),
+
+        cases: fields.object(
+          {
+            enabled: fields.checkbox({
+              label: 'Mostra la sezione',
+              description: 'Spenta finché non ci sono i contenuti.',
+              defaultValue: false,
+            }),
+            title: fields.text({ label: 'Titolo', defaultValue: 'Casi studio' }),
+            ctaLabel: fields.text({ label: 'Testo link', defaultValue: 'TUTTI I PROGETTI' }),
+            items: fields.array(
+              fields.object({
+                name: fields.text({ label: 'Cliente' }),
+                sector: fields.text({ label: 'Settore' }),
+                result: fields.text({ label: 'Risultato' }),
+              }),
+              { label: 'Casi studio', itemLabel: (props) => props.fields.name.value || '(senza nome)' }
+            ),
+          },
+          { label: 'Casi studio' }
+        ),
+
+        team: fields.object(
+          {
+            title: fields.text({ label: 'Titolo', defaultValue: 'Chi siamo' }),
+            intro: fields.text({
+              label: 'Testo introduttivo',
+              description: 'Il sito aggiunge "Clicca/Tocca una foto per conoscerci."',
+              multiline: true,
+            }),
+            members: fields.array(
+              fields.object({
+                name: fields.text({ label: 'Nome (es. Elisa G.)' }),
+                role: fields.text({ label: 'Ruolo' }),
+                description: fields.text({ label: 'Descrizione', multiline: true }),
+                strength: fields.text({ label: 'Punto forte', multiline: true }),
+                weakness: fields.text({ label: 'Punto debole', multiline: true }),
+                photo: fields.image({
+                  label: 'Foto',
+                  description: 'Ritratto verticale. Se manca compare un segnaposto.',
+                  directory: 'src/assets/images/home/team',
+                  publicPath: '/src/assets/images/home/team/',
+                }),
+              }),
+              {
+                label: 'Membri del team',
+                itemLabel: (props) => `${props.fields.name.value} — ${props.fields.role.value}`,
+              }
+            ),
+            collaboratorsLabel: fields.text({ label: 'Etichetta collaboratori', defaultValue: '+ COLLABORATORI' }),
+            collaboratorsText: fields.text({ label: 'Testo collaboratori', multiline: true }),
+          },
+          { label: 'Chi siamo (team)' }
+        ),
+
+        reviews: fields.object(
+          {
+            title: fields.text({ label: 'Titolo', multiline: true, defaultValue: 'Dicono\ndi noi' }),
+            badge: fields.text({
+              label: 'Etichetta sotto le stelle (desktop)',
+              defaultValue: 'RECENSIONI REALI DEI NOSTRI CLIENTI SU GOOGLE',
+            }),
+            badgeMobile: fields.text({ label: 'Etichetta sotto le stelle (mobile)', defaultValue: 'RECENSIONI GOOGLE' }),
+            linkLabel: fields.text({
+              label: 'Testo link a Google',
+              description: "L'indirizzo è quello di Impostazioni Globali → Social → Recensioni Google.",
+              defaultValue: 'LEGGILE TUTTE SU GOOGLE',
+            }),
+            items: fields.array(
+              fields.object({
+                name: fields.text({ label: 'Nome' }),
+                text: fields.text({ label: 'Testo della recensione', multiline: true }),
+                localGuide: fields.checkbox({ label: 'Local Guide', defaultValue: false }),
+                count: fields.text({ label: 'Numero recensioni (es. 7 RECENSIONI SU GOOGLE)' }),
+              }),
+              { label: 'Recensioni', itemLabel: (props) => props.fields.name.value || '(senza nome)' }
+            ),
+          },
+          { label: 'Dicono di noi (recensioni)' }
+        ),
+
+        articles: fields.object(
+          {
+            title: fields.text({ label: 'Titolo', defaultValue: 'Articoli' }),
+            intro: fields.text({ label: 'Testo introduttivo', multiline: true }),
+          },
+          { label: 'Articoli' }
+        ),
+
+        contact: fields.object(
+          {
+            eyebrow: fields.text({ label: 'Etichetta', defaultValue: 'PRENOTA UNA CONSULENZA' }),
+            title: fields.text({ label: 'Titolo', multiline: true }),
+            text: fields.text({ label: 'Testo', multiline: true }),
+            whatsappLabel: fields.text({ label: 'Bottone WhatsApp', defaultValue: 'Scrivici su WhatsApp' }),
+            whatsappSub: fields.text({ label: 'Sottotitolo WhatsApp', defaultValue: 'RISPOSTA IN POCHE ORE' }),
+            phoneLabel: fields.text({ label: 'Bottone telefono', defaultValue: 'Chiamaci ora' }),
+          },
+          { label: 'Contatti' }
+        ),
+
+        footer: fields.object(
+          {
+            sediTitle: fields.text({ label: 'Titolo sedi', defaultValue: 'LE NOSTRE SEDI' }),
+            sedi: fields.array(
+              fields.object({
+                city: fields.text({ label: 'Città' }),
+                tag: fields.text({ label: 'Etichetta (es. HQ, SEDE)' }),
+                photo: fields.image({
+                  label: 'Foto città',
+                  directory: 'src/assets/images/home/sedi',
+                  publicPath: '/src/assets/images/home/sedi/',
+                }),
+                href: fields.text({
+                  label: 'Link pagina città',
+                  description: 'Es. /agenzia-marketing-bologna/ — se vuoto la città non è cliccabile.',
+                }),
+              }),
+              { label: 'Sedi', itemLabel: (props) => `${props.fields.city.value} — ${props.fields.tag.value}` }
+            ),
+          },
+          { label: 'Footer (sedi)' }
+        ),
+      },
+    }),
+
+    // ──────────────────────────────────────────────────────────────────────
     // Banner cookie (testi semplici)
     // ──────────────────────────────────────────────────────────────────────
     cookieBanner: singleton({
