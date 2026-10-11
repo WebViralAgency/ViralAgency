@@ -1,0 +1,130 @@
+---
+import { homeImage } from '../../lib/homeImages';
+
+interface Member {
+  name: string;
+  role: string;
+  description: string;
+  strength: string;
+  weakness: string;
+  photo: string | null;
+}
+
+interface Props {
+  data: {
+    title: string;
+    intro: string;
+    members: Member[];
+    collaboratorsLabel: string;
+    collaboratorsText: string;
+  };
+}
+
+const { data } = Astro.props;
+const members = data.members.map((m, i) => ({
+  ...m,
+  img: homeImage(m.photo),
+  short: m.name.toUpperCase(),
+  off: i !== 0,
+}));
+---
+
+<section id="team" class="hv-team hv-dark" aria-labelledby="hv-team-title">
+  <div class="hv-section-head">
+    <h2 id="hv-team-title" class="hv-h-lg">{data.title}</h2>
+    <p class="hv-team-intro">
+      {data.intro}
+      <span class="hv-only-desktop">Clicca su una foto per conoscerci.</span>
+      <span class="hv-only-mobile">Tocca una foto per conoscerci.</span>
+    </p>
+  </div>
+
+  <!-- Desktop / tablet: card affiancate, quella attiva si allarga -->
+  <div class="hv-team-cards" data-team>
+    {members.map((m, i) => (
+      <div class:list={['hv-tm', m.off && 'is-off']} data-team-item={i}>
+        <button type="button" class="hv-tm-hit" data-team-pick={i} aria-pressed={m.off ? 'false' : 'true'} aria-label={`${m.name}, ${m.role}`}>
+          <span class:list={['hv-tm-img', !m.img && 'hv-ph']}>
+            {m.img ? (
+              <img src={m.img.src} width={m.img.width} height={m.img.height} alt="" loading="lazy" decoding="async" />
+            ) : (
+              <span class="hv-ph-label">[FOTO {m.short}]</span>
+            )}
+          </span>
+          <span class="hv-tm-off" aria-hidden="true">
+            <span class="hv-tm-off-name">{m.short}</span>
+            <span class="hv-tm-off-role">{m.role}</span>
+          </span>
+        </button>
+        <div class="hv-tm-card">
+          <div class="hv-rise-1">
+            <span class="hv-tm-role">{m.role}</span>
+            <h3 class="hv-tm-name">{m.name}</h3>
+          </div>
+          <p class="hv-tm-desc hv-rise-2">{m.description}</p>
+          <div class="hv-tm-traits hv-rise-3">
+            <p class="hv-tm-trait is-strong"><span class="hv-tm-trait-label">PUNTO FORTE</span><span class="hv-tm-trait-text">{m.strength}</span></p>
+            <p class="hv-tm-trait is-weak"><span class="hv-tm-trait-label">PUNTO DEBOLE</span><span class="hv-tm-trait-text">{m.weakness}</span></p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Mobile: tondi in alto, scheda sotto -->
+  <div class="hv-team-avatars" data-team>
+    {members.map((m, i) => (
+      <button type="button" class:list={['hv-av', m.off && 'is-off']} data-team-item={i} data-team-pick={i} aria-pressed={m.off ? 'false' : 'true'} aria-label={`${m.name}, ${m.role}`}>
+        <span class="hv-av-circle">
+          <span class:list={['hv-tm-img', !m.img && 'hv-ph']}>
+            {m.img && <img src={m.img.src} width={m.img.width} height={m.img.height} alt="" loading="lazy" decoding="async" />}
+          </span>
+        </span>
+        <span class="hv-av-name" aria-hidden="true">{m.short}</span>
+      </button>
+    ))}
+  </div>
+  <div class="hv-team-panels">
+    {members.map((m, i) => (
+      <div class="hv-team-panel hv-rise-1" data-team-panel={i} hidden={m.off}>
+        <div class="hv-team-panel-media">
+          <span class:list={['hv-tm-img', !m.img && 'hv-ph']}>
+            {m.img ? (
+              <img src={m.img.src} width={m.img.width} height={m.img.height} alt={m.name} loading="lazy" decoding="async" />
+            ) : (
+              <span class="hv-ph-label">[FOTO {m.short}]</span>
+            )}
+          </span>
+        </div>
+        <div class="hv-team-panel-body">
+          <span class="hv-tm-role hv-rise-1">{m.role}</span>
+          <h3 class="hv-tm-name hv-rise-1">{m.name}</h3>
+          <p class="hv-tm-desc hv-rise-2">{m.description}</p>
+          <div class="hv-tm-traits hv-rise-3">
+            <p class="hv-tm-trait is-strong"><span class="hv-tm-trait-label">PUNTO FORTE</span><span class="hv-tm-trait-text">{m.strength}</span></p>
+            <p class="hv-tm-trait is-weak"><span class="hv-tm-trait-label">PUNTO DEBOLE</span><span class="hv-tm-trait-text">{m.weakness}</span></p>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <p class="hv-collab">
+    <span class="hv-collab-badge">{data.collaboratorsLabel}</span>
+    {data.collaboratorsText}
+  </p>
+</section>
+
+<script>
+  const pickers = document.querySelectorAll<HTMLButtonElement>('[data-team-pick]');
+  const select = (index: string) => {
+    document.querySelectorAll<HTMLElement>('[data-team-item]').forEach((el) => {
+      el.classList.toggle('is-off', el.dataset.teamItem !== index);
+    });
+    pickers.forEach((btn) => btn.setAttribute('aria-pressed', String(btn.dataset.teamPick === index)));
+    document.querySelectorAll<HTMLElement>('[data-team-panel]').forEach((panel) => {
+      panel.hidden = panel.dataset.teamPanel !== index;
+    });
+  };
+  pickers.forEach((btn) => btn.addEventListener('click', () => select(btn.dataset.teamPick || '0')));
+</script>

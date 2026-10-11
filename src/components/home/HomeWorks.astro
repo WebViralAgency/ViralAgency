@@ -1,0 +1,26 @@
+---
+interface Props {
+  data: { title: string; ctaLabel: string };
+  items: { brand: string; poster: ImageMetadata | null }[];
+}
+
+const { data, items } = Astro.props;
+---
+
+<section id="portfolio" class="hv-works hv-dark" aria-labelledby="hv-works-title">
+  <div class="hv-works-head">
+    <h2 id="hv-works-title" class="hv-works-title">{data.title}</h2>
+    <a href="#contatti" class="hv-btn-pill">{data.ctaLabel} <span aria-hidden="true">↗</span></a>
+  </div>
+  <ul class="hv-works-grid">
+    {items.map((item, i) => (
+      <li class:list={['hv-works-item', !item.poster && 'hv-ph']}>
+        {item.poster ? (
+          <img src={item.poster.src} width={item.poster.width} height={item.poster.height} alt={item.brand} loading="lazy" decoding="async" />
+        ) : (
+          <span class="hv-ph-label">[VIDEO {String(i + 1).padStart(2, '0')}]</span>
+        )}
+      </li>
+    ))}
+  </ul>
+</section>

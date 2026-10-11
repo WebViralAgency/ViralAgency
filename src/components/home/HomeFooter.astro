@@ -1,0 +1,186 @@
+---
+import logo from '../../assets/images/home/logo/logo-viral-bianco.webp';
+import globalSettings from '../../../content/settings/global.json';
+import cookieBanner from '../../../content/pages/cookie-banner.json';
+import { cleanPhoneHref, whatsappHref } from '../../lib/contact';
+import { landingLinks } from '../../lib/internalLinks';
+import { homeImage } from '../../lib/homeImages';
+
+interface Props {
+  data: {
+    sediTitle: string;
+    sedi: { city: string; tag: string; photo: string | null; href: string }[];
+  };
+}
+
+const { data } = Astro.props;
+const g: any = globalSettings;
+const email = g.contact?.email || 'info@viralagency.it';
+const phone = g.contact?.phone || '';
+const whatsappUrl = whatsappHref(g.whatsapp?.number, g.whatsapp?.defaultMessage);
+const social = g.social ?? {};
+const footer = g.footer ?? {};
+const year = new Date().getFullYear();
+const BASE = import.meta.env.BASE_URL;
+const sedi = data.sedi.map((s) => ({ ...s, img: homeImage(s.photo) }));
+
+const icons = {
+  phone: 'M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5C10.6 20 4 13.4 3.5 5.6A1.5 1.5 0 0 1 5 4z',
+  whatsapp: 'M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z',
+};
+---
+
+<footer class="hv-footer hv-dark">
+  <div class="hv-f-eyebrow">— {footer.eyebrow || 'Parliamone'}</div>
+  <a href={`mailto:${email}`} class="hv-f-mail">{email}<span aria-hidden="true">↗</span></a>
+
+  <div class="hv-f-main">
+    <div class="hv-f-brand">
+      <p class="hv-f-label">Brand</p>
+      <img src={logo.src} width={logo.width} height={logo.height} alt={g.companyName} class="hv-f-logo" loading="lazy" decoding="async" />
+      <p class="hv-f-tagline">{g.companyName} — {footer.tagline}</p>
+    </div>
+
+    <div class="hv-f-contatti">
+      <p class="hv-f-label">Contatti</p>
+      <ul class="hv-f-list">
+        <li><a href={`mailto:${email}`}>{email}</a></li>
+        {phone && (
+          <li>
+            <a href={`tel:${cleanPhoneHref(phone)}`} aria-label={`Chiama ${phone}`}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={icons.phone} stroke="#B9BFCC" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+              {phone}
+            </a>
+          </li>
+        )}
+        {whatsappUrl && (
+          <li>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Scrivici su WhatsApp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={icons.whatsapp} stroke="#B9BFCC" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+              WhatsApp
+            </a>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <div class="hv-f-legale">
+      <p class="hv-f-label">Legale</p>
+      <ul class="hv-f-legal-list">
+        {g.legal?.piva && <li>P.IVA {g.legal.piva}</li>}
+        {g.legal?.codiceDestinatario && <li>SDI {g.legal.codiceDestinatario}</li>}
+      </ul>
+    </div>
+
+    <div class="hv-f-seguici">
+      <p class="hv-f-label">Seguici</p>
+      <div class="hv-f-social">
+        {social.instagram && (
+          <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hv-f-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="#FFFFFF" stroke-width="1.6"></rect><circle cx="12" cy="12" r="4" stroke="#FFFFFF" stroke-width="1.6"></circle><circle cx="17.2" cy="6.8" r="1" fill="#FFFFFF"></circle></svg>
+          </a>
+        )}
+        {social.facebook && (
+          <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="hv-f-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+          </a>
+        )}
+        {whatsappUrl && (
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="hv-f-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={icons.whatsapp} stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+          </a>
+        )}
+        {social.googleMapsUrl && (
+          <a href={social.googleMapsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Maps" class="hv-f-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z" stroke="#FFFFFF" stroke-width="1.6"></path><circle cx="12" cy="10" r="2.3" stroke="#FFFFFF" stroke-width="1.6"></circle></svg>
+          </a>
+        )}
+      </div>
+      {social.googleReviewsUrl && (
+        <a href={social.googleReviewsUrl} target="_blank" rel="noopener noreferrer" class="hv-f-review">★ LASCIA UNA RECENSIONE SU GOOGLE</a>
+      )}
+    </div>
+
+    <div class="hv-f-sedi">
+      <div class="hv-f-sedi-head">
+        <p class="hv-f-label" id="hv-sedi-title">{data.sediTitle}</p>
+        <div class="hv-f-arrows">
+          <button type="button" class="hv-f-arrow" data-sedi-prev aria-label="Sede precedente" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#FFFFFF" stroke-width="2"></path></svg>
+          </button>
+          <button type="button" class="hv-f-arrow" data-sedi-next aria-label="Sede successiva">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="#FFFFFF" stroke-width="2"></path></svg>
+          </button>
+        </div>
+      </div>
+      <ul class="hv-f-sedi-list" data-sedi aria-labelledby="hv-sedi-title">
+        {sedi.map((s) => {
+          const inner = (
+            <>
+              <span class="hv-f-sede-city">{s.city}</span>
+              <span class="hv-f-sede-tag">{s.tag}</span>
+              <span class="hv-f-sede-photo">
+                {s.img && <img src={s.img.src} width={s.img.width} height={s.img.height} alt="" loading="lazy" decoding="async" />}
+              </span>
+            </>
+          );
+          return (
+            <li class="hv-f-sede">
+              {s.href ? (
+                <a href={s.href} class="hv-f-sede-inner" aria-label={`Viral Agency ${s.city}`}>{inner}</a>
+              ) : (
+                <div class="hv-f-sede-inner">{inner}</div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    {landingLinks.length > 0 && (
+      <nav class="hv-f-aree" aria-label="Servizi e aree">
+        <p class="hv-f-label">Servizi e aree</p>
+        <ul class="hv-f-aree-list">
+          {landingLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </nav>
+    )}
+  </div>
+
+  <div class="hv-f-bottom">
+    <span>© {year} {g.companyName} — Tutti i diritti riservati</span>
+    <span class="hv-f-bottom-links">
+      <a href={BASE + 'privacy-policy/'}>Privacy</a>
+      <a href={BASE + 'cookie-policy/'}>Cookie</a>
+      <button type="button" id="hv-cookie-prefs">{(cookieBanner as any).managePrefsLabel || 'Gestisci cookie'}</button>
+      <span>{footer.siteCredit || 'Site design — REAL GOES VIRAL'} · {year}</span>
+    </span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('hv-cookie-prefs')?.addEventListener('click', () => {
+    const open = (window as any).openCookiePreferences;
+    if (typeof open === 'function') open();
+  });
+
+  const list = document.querySelector<HTMLElement>('[data-sedi]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-sedi-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-sedi-next]');
+  if (list && prev && next) {
+    const step = () => {
+      const item = list.querySelector<HTMLElement>('li');
+      const gap = parseFloat(getComputedStyle(list).columnGap) || 0;
+      return item ? item.offsetWidth + gap : 200;
+    };
+    const update = () => {
+      prev.disabled = list.scrollLeft <= 2;
+      next.disabled = list.scrollLeft + list.clientWidth >= list.scrollWidth - 2;
+    };
+    prev.addEventListener('click', () => list.scrollBy({ left: -step() }));
+    next.addEventListener('click', () => list.scrollBy({ left: step() }));
+    list.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+</script>

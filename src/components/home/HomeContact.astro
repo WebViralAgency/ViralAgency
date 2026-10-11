@@ -1,0 +1,66 @@
+---
+import ContactForm from '../ContactForm.astro';
+import globalSettings from '../../../content/settings/global.json';
+import { cleanPhoneHref, whatsappHref } from '../../lib/contact';
+
+interface Props {
+  data: {
+    eyebrow: string;
+    title: string;
+    text: string;
+    whatsappLabel: string;
+    whatsappSub: string;
+    phoneLabel: string;
+  };
+}
+
+const { data } = Astro.props;
+const g: any = globalSettings;
+const whatsappUrl = whatsappHref(g.whatsapp?.number, g.whatsapp?.defaultMessage);
+const phone = g.contact?.phone || '';
+const email = g.contact?.email || 'info@viralagency.it';
+---
+
+<section id="contatti" class="hv-contact hv-navy" aria-labelledby="hv-contact-title">
+  <div class="hv-contact-grid">
+    <div>
+      <span class="hv-contact-eyebrow">{data.eyebrow}</span>
+      <h2 id="hv-contact-title" class="hv-contact-title">{data.title}</h2>
+      <p class="hv-contact-text">{data.text}</p>
+
+      <div class="hv-contact-btns">
+        {whatsappUrl && (
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="hv-cbtn hv-cbtn-wa" data-cursor="whatsapp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3.5 20.5l1.3-4A8.5 8.5 0 1 1 8 19.6z" stroke="#25D366" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+            <span class="hv-cbtn-text">
+              <span class="hv-cbtn-label">{data.whatsappLabel}</span>
+              <span class="hv-cbtn-sub">{data.whatsappSub}</span>
+            </span>
+            <span class="hv-cbtn-arrow" aria-hidden="true">↗</span>
+          </a>
+        )}
+        {phone && (
+          <a href={`tel:${cleanPhoneHref(phone)}`} class="hv-cbtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 6.1 6.1l1.4-2.3L20 15.5V19a1.5 1.5 0 0 1-1.6 1.5C10.6 20 4 13.4 3.5 5.6A1.5 1.5 0 0 1 5 4z" stroke="#FFFFFF" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+            <span class="hv-cbtn-text">
+              <span class="hv-cbtn-label">{data.phoneLabel}</span>
+              <span class="hv-cbtn-sub">{phone}</span>
+            </span>
+            <span class="hv-cbtn-arrow" aria-hidden="true">↗</span>
+          </a>
+        )}
+      </div>
+
+      <div class="hv-contact-mailbox">
+        <a href={`mailto:${email}`} class="hv-contact-mail">
+          <span class="hv-contact-mail-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="1.5" stroke="#FFFFFF" stroke-width="1.6"></rect><path d="M3.5 6l8.5 7 8.5-7" stroke="#FFFFFF" stroke-width="1.6"></path></svg>
+          </span>
+          <span class="hv-contact-mail-text"><span>EMAIL</span><span>{email}</span></span>
+        </a>
+      </div>
+    </div>
+
+    <ContactForm />
+  </div>
+</section>

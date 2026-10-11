@@ -1,0 +1,97 @@
+---
+interface Review {
+  name: string;
+  text: string;
+  localGuide: boolean;
+  count: string;
+}
+
+interface Props {
+  data: { title: string; badge: string; badgeMobile: string; linkLabel: string; items: Review[] };
+  reviewsUrl: string;
+}
+
+const { data, reviewsUrl } = Astro.props;
+
+// Una card su tre in blu notte, come nel mockup.
+const style = (r: Review, k: number) => ({ ...r, initial: r.name.trim().charAt(0).toUpperCase(), navy: k % 3 === 0 });
+const half = Math.ceil(data.items.length / 2);
+const rowA = data.items.slice(0, half).map(style);
+const rowB = data.items.slice(half).map((r, k) => style(r, k + 1));
+const rowM = data.items.map(style);
+
+const rows = [
+  { cls: 'is-left', items: rowA, only: 'hv-only-desktop' },
+  { cls: 'is-right', items: rowB, only: 'hv-only-desktop' },
+  { cls: 'is-mobile', items: rowM, only: 'hv-only-mobile' },
+];
+const starPath = 'M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z';
+---
+
+<section id="recensioni" class="hv-reviews hv-light" aria-labelledby="hv-reviews-title">
+  <div class="hv-reviews-head hv-section-head">
+    <h2 id="hv-reviews-title" class="hv-h-lg hv-reviews-title">{data.title}</h2>
+    <div class="hv-reviews-aside">
+      <div class="hv-reviews-meta">
+        <span class="hv-stars" role="img" aria-label="5 stelle su 5">
+          {[1, 2, 3, 4, 5].map(() => <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d={starPath}></path></svg>)}
+        </span>
+        <span class="hv-reviews-badge">
+          <span class="hv-only-desktop">{data.badge}</span>
+          <span class="hv-only-mobile">{data.badgeMobile}</span>
+        </span>
+      </div>
+      {reviewsUrl && (
+        <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" class="hv-reviews-link hv-only-desktop">{data.linkLabel} ↗</a>
+      )}
+    </div>
+  </div>
+
+  <div class="hv-rv-rows">
+    {rows.map((row) => (
+      <div class:list={['hv-rv-row', row.only]} data-rv-row>
+        <div class:list={['hv-rv-track', row.cls]}>
+          {[0, 1].map((copy) =>
+            row.items.map((r) => (
+              <figure class:list={['hv-rv-card', r.navy && 'is-navy']} aria-hidden={copy === 1 ? 'true' : undefined}>
+                <span class="hv-stars" aria-hidden="true">
+                  {[1, 2, 3, 4, 5].map(() => <svg width="16" height="16" viewBox="0 0 24 24"><path d={starPath}></path></svg>)}
+                </span>
+                <blockquote>“{r.text}”</blockquote>
+                <figcaption>
+                  <span class="hv-rv-avatar" aria-hidden="true">{r.initial}</span>
+                  <span class="hv-rv-who">
+                    <span class="hv-rv-name">{r.name}</span>
+                    <span class="hv-rv-meta">
+                      {r.localGuide && <span class="hv-rv-lg">★ LOCAL GUIDE</span>}
+                      <span>{r.count}</span>
+                    </span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {reviewsUrl && (
+    <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" class="hv-reviews-cta hv-only-mobile">{data.linkLabel} ↗</a>
+  )}
+</section>
+
+<script>
+  // Al tocco lo scorrimento si ferma (così si può leggere o scorrere col dito)
+  // e riparte qualche secondo dopo aver staccato il dito.
+  document.querySelectorAll<HTMLElement>('[data-rv-row]').forEach((row) => {
+    let timer: number | undefined;
+    row.addEventListener('touchstart', () => {
+      window.clearTimeout(timer);
+      row.classList.add('is-paused');
+    }, { passive: true });
+    row.addEventListener('touchend', () => {
+      timer = window.setTimeout(() => row.classList.remove('is-paused'), 3000);
+    }, { passive: true });
+  });
+</script>

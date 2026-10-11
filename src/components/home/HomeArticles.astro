@@ -1,0 +1,26 @@
+---
+interface Props {
+  data: { title: string; intro: string };
+  articles: { tag: string; title: string; date: string; href: string }[];
+}
+
+const { data, articles } = Astro.props;
+---
+
+<section id="articoli" class="hv-articles hv-dark" aria-labelledby="hv-articles-title">
+  <div class="hv-section-head">
+    <h2 id="hv-articles-title" class="hv-h-lg">{data.title}</h2>
+    {data.intro && <p class="hv-articles-intro">{data.intro}</p>}
+  </div>
+  <ul class="hv-articles-grid">
+    {articles.map((a) => (
+      <li>
+        <a href={a.href} class="hv-article">
+          <span class="hv-article-tag">{a.tag}</span>
+          <h3 class="hv-article-title">{a.title}</h3>
+          <span class="hv-article-foot"><span>{a.date}</span><span aria-hidden="true">Leggi ↗</span></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

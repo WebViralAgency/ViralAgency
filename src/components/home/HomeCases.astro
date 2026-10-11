@@ -1,0 +1,33 @@
+---
+interface Props {
+  data: { title: string; ctaLabel: string; items: { name: string; sector: string; result: string }[] };
+  hasPortfolio: boolean;
+}
+
+const { data, hasPortfolio } = Astro.props;
+---
+
+<div class="hv-cases-wrap">
+  <section id="casi-studio" class="hv-cases hv-dark" aria-labelledby="hv-cases-title">
+    <div class="hv-cases-head">
+      <h2 id="hv-cases-title" class="hv-h-xl">{data.title}</h2>
+      {hasPortfolio && <a href="#portfolio">{data.ctaLabel} →</a>}
+    </div>
+    <ul class="hv-cases-grid" role="list" style="list-style: none; padding: 0; margin-bottom: 0;">
+      {data.items.map((c, i) => (
+        <li class="hv-case">
+          <div class="hv-case-media hv-ph">
+            <span class="hv-ph-label">[FOTO / VIDEO REALE]</span>
+            <span class="hv-case-num">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <div class="hv-case-body">
+            <div><span class="hv-case-sector">Cliente</span><div class="hv-case-name">{c.name}</div></div>
+            <div><span class="hv-case-sector">Settore</span><div class="hv-case-result">{c.sector}</div></div>
+            <div><span class="hv-case-sector">Risultato</span><div class="hv-case-result">{c.result}</div></div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>
+<div class="hv-cases-gap" aria-hidden="true"></div>

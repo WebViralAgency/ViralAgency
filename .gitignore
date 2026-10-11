@@ -31,3 +31,9 @@ Thumbs.db
 
 # Raw video sources — already copied to public/videos/portfolio/ for the site
 media/
+
+# WebP generati alla build da scripts/optimize-images.mjs
+*.opt.webp
+
+# Mockup di riferimento del redesign (non fanno parte del sito)
+design-handoff/

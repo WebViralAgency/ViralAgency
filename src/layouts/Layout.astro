@@ -14,9 +14,13 @@ interface Props {
       Makes the body transparent (so the fixed video shows) and switches
       the header into its transparent/over-hero mode. */
   heroVideo?: boolean;
+  /** 'home' = homepage nel nuovo design: font dedicati, header/footer passati
+      negli slot "header"/"footer", niente effetti del vecchio design. */
+  variant?: 'default' | 'home';
 }
 
-const { title, description, image, heroVideo } = Astro.props;
+const { title, description, image, heroVideo, variant = 'default' } = Astro.props;
+const isHome = variant === 'home';
 
 // ────────────────────────────────────────────────────────────────────────────
 // CUSTOM CURSOR TOGGLE
@@ -61,7 +65,7 @@ const schemaOrg = {
 ---
 
 <!doctype html>
-<html lang="it" data-cursor-fx={CUSTOM_CURSOR ? 'on' : 'off'}>
+<html lang="it" data-cursor-fx={CUSTOM_CURSOR && !isHome ? 'on' : 'off'} data-layout={variant}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -73,20 +77,29 @@ const schemaOrg = {
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-    <!-- NOVA_AI hero display font — caricato in modo non-blocking (preload + swap onload) -->
-    <link
-      rel="preload"
-      as="style"
-      href="https://db.onlinewebfonts.com/c/4556933d6966c60eda45bebad34d9c90?family=Flexo+Soft+Medium"
-      onload="this.onload=null;this.rel='stylesheet'"
-    />
-    <noscript>
-      <link href="https://db.onlinewebfonts.com/c/4556933d6966c60eda45bebad34d9c90?family=Flexo+Soft+Medium" rel="stylesheet" />
-    </noscript>
+    {isHome ? (
+      <link
+        href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@800&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@700&display=swap"
+        rel="stylesheet"
+      />
+    ) : (
+      <>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+        <!-- NOVA_AI hero display font — caricato in modo non-blocking (preload + swap onload) -->
+        <link
+          rel="preload"
+          as="style"
+          href="https://db.onlinewebfonts.com/c/4556933d6966c60eda45bebad34d9c90?family=Flexo+Soft+Medium"
+          onload="this.onload=null;this.rel='stylesheet'"
+        />
+        <noscript>
+          <link href="https://db.onlinewebfonts.com/c/4556933d6966c60eda45bebad34d9c90?family=Flexo+Soft+Medium" rel="stylesheet" />
+        </noscript>
+      </>
+    )}
 
     <!-- Open Graph -->
     <meta property="og:title" content={fullTitle} />
@@ -119,33 +132,38 @@ const schemaOrg = {
     <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
 
     <!-- Page-load intro overlay (matrix scramble on black) -->
-    <div class="intro-overlay" aria-hidden="true">
-      <div class="intro-brand">
-        <span class="intro-scramble" data-text="REAL GOES VIRAL">REAL GOES VIRAL</span><span class="dot">.</span>
+    {!isHome && (
+      <div class="intro-overlay" aria-hidden="true">
+        <div class="intro-brand">
+          <span class="intro-scramble" data-text="REAL GOES VIRAL">REAL GOES VIRAL</span><span class="dot">.</span>
+        </div>
       </div>
-    </div>
+    )}
 
     <!-- Custom cursor (toggle via CUSTOM_CURSOR constant above) -->
-    {CUSTOM_CURSOR && (
+    {CUSTOM_CURSOR && !isHome && (
       <div id="cursor-dot" class="cursor-dot" aria-hidden="true">
         <span class="label"></span>
       </div>
     )}
 
-    <Header />
+    <slot name="header"><Header /></slot>
     <main id="main-content" class="flex-grow">
       <slot />
     </main>
-    <Footer />
+    <slot name="footer"><Footer /></slot>
     <CookieConsent />
 
     <script>
-      import { initImmersive } from '../scripts/immersive';
+      // La homepage nel nuovo design usa solo animazioni CSS leggere.
+      const isHomeLayout = document.documentElement.dataset.layout === 'home';
 
       // ---------- Immersive engine: Lenis + GSAP scroll effects ----------
       // (progress bar, hero parallax, marquee velocity, scrub text,
       //  portfolio/team entrances, magnetic buttons, label roll, tilt)
-      initImmersive();
+      if (!isHomeLayout) {
+        import('../scripts/immersive').then(({ initImmersive }) => initImmersive());
+      }
 
       // ---------- Split-flap reveal — intro wordmark (page-load) ----------
       // Each character flips through a short ordered sequence before landing,
@@ -259,6 +277,7 @@ const schemaOrg = {
 
       // ---------- Click pixel burst ----------
       document.addEventListener('click', (e) => {
+        if (isHomeLayout) return;
         const target = e.target as HTMLElement;
         // Only burst on interactive elements
         if (!target.closest('a, button, [role="button"], .portfolio-card, .service-row')) return;

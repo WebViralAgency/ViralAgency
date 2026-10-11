@@ -1,0 +1,44 @@
+---
+import heroDesktop from '../../assets/images/home/hero/hero-desktop.webp';
+import heroMobile from '../../assets/images/home/hero/hero-mobile.webp';
+
+interface Props {
+  data: { title: string; subtitle: string; ctaLabel: string; scrollLabel: string };
+}
+
+const { data } = Astro.props;
+---
+
+<section id="home" class="hv-hero" aria-labelledby="hv-hero-title">
+  <div class="hv-hero-content">
+    <h1 id="hv-hero-title" class="hv-hero-title">{data.title}</h1>
+    <div>
+      <p class="hv-hero-sub">{data.subtitle}</p>
+      <div class="hv-hero-actions">
+        <a href="#contatti" class="hv-btn-hero hv-slant">{data.ctaLabel} →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hv-hero-media">
+    <picture>
+      <source media="(max-width: 767px)" srcset={heroMobile.src} width={heroMobile.width} height={heroMobile.height} />
+      <img
+        src={heroDesktop.src}
+        width={heroDesktop.width}
+        height={heroDesktop.height}
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <div class="hv-hero-shade" aria-hidden="true"></div>
+    <a href="#servizi" class="hv-hero-scroll">
+      {data.scrollLabel}
+      <span class="hv-bob" aria-hidden="true">
+        <svg width="10" height="14" viewBox="0 0 14 18" fill="none"><path d="M7 1v15M1 10l6 6 6-6" stroke="#FFFFFF" stroke-width="2"></path></svg>
+      </span>
+    </a>
+  </div>
+</section>
